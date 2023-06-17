@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv                  #AVC
+from dotenv import load_dotenv                  # AVC
 
-load_dotenv()                                   #AVC
+load_dotenv()                                   # AVC
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,31 +24,31 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'DEFAULT_SECRET_KEY')     #AVC
+SECRET_KEY = os.getenv('SECRET_KEY', 'DEFAULT_SECRET_KEY')     # AVC
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']                            #AVC
+ALLOWED_HOSTS = ['*']                            # AVC
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'users.apps.UsersConfig',                    #AVC
-    'recipes.apps.RecipesConfig',                #AVC
-    'authoriz.apps.AuthorizConfig',              #AVC  
-    'django.contrib.admin',        
+    'users.apps.UsersConfig',                    # AVC
+    'recipes.apps.RecipesConfig',                # AVC
+    'authoriz.apps.AuthorizConfig',              # AVC
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',                            #AVC
-    'rest_framework.authtoken',                  #AVC
-    'djoser',                                    #AVC
-    'django_filters',                            #AVC
-    'debug_toolbar',                             #AVC
+    'rest_framework',                            # AVC
+    'rest_framework.authtoken',                  # AVC
+    'djoser',                                    # AVC
+    'django_filters',                            # AVC
+    'debug_toolbar',                             # AVC
 ]
 
 MIDDLEWARE = [
@@ -59,13 +59,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',           #AVC
+    'debug_toolbar.middleware.DebugToolbarMiddleware',           # AVC
 ]
 
-if DEBUG:
-    import socket  # only if you haven't already imported this
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["localhost", "127.0.0.1", "10.0.2.2", "172.22.0.1"]
+# if DEBUG:
+#     import socket  # only if you haven't already imported this
+#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+#     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["localhost", "127.0.0.1", "10.0.2.2", "172.22.0.1"]
 
 ROOT_URLCONF = 'foodgram.urls'
 
@@ -93,16 +93,16 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),    #AVC
-        'NAME': os.getenv('DB_NAME', 'DEFAULT_NAME'),                         #AVC
-        'USER': os.getenv('POSTGRES_USER', 'DEFAULT_USER'),                   #AVC
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'DEFAULT_PASSWORD'),       #AVC
-        'HOST': os.getenv('DB_HOST', 'DEFAULT_HOST'),                         #AVC
-        'PORT': os.getenv('DB_PORT', 'DEFAULT_PORT'),                         #AVC 
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),    # AVC
+        'NAME': os.getenv('DB_NAME', 'DEFAULT_NAME'),                         # AVC
+        'USER': os.getenv('POSTGRES_USER', 'DEFAULT_USER'),                   # AVC
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'DEFAULT_PASSWORD'),       # AVC
+        'HOST': os.getenv('DB_HOST', 'DEFAULT_HOST'),                         # AVC
+        'PORT': os.getenv('DB_PORT', 'DEFAULT_PORT'),                         # AVC
     }
 }
 
-AUTH_USER_MODEL = "users.ExtUser"                                             #AVC
+AUTH_USER_MODEL = "users.ExtUser"                                             # AVC
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -122,29 +122,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {                                                                 #AVC
-    'DEFAULT_PERMISSION_CLASSES': [                                                #AVC
-        'rest_framework.permissions.IsAuthenticated',                              #AVC
+REST_FRAMEWORK = {                                                                 # AVC
+    'DEFAULT_PERMISSION_CLASSES': [                                                # AVC
+        'rest_framework.permissions.IsAuthenticated',                              # AVC
     ],
 
-    'DEFAULT_AUTHENTICATION_CLASSES': [                                            #AVC
-        'rest_framework.authentication.TokenAuthentication',                       #AVC
+    'DEFAULT_AUTHENTICATION_CLASSES': [                                            # AVC
+        'rest_framework.authentication.TokenAuthentication',                       # AVC
     ],
-    'DEFAULT_PAGINATION_CLASS': 'foodgram.pagination.CustomSetPagination',         #AVC
-    'PAGE_SIZE': 6                                                                 #AVC
+    'DEFAULT_PAGINATION_CLASS': 'foodgram.pagination.CustomSetPagination',         # AVC
+    'PAGE_SIZE': 6                                                                 # AVC
 }
 
-DJOSER = {                                                                         #AVC
-    'LOGIN_FIELD': 'email',                                                        #AVC
-    'SEND_ACTIVATION_EMAIL': False,                                                #AVC
-    'SERIALIZERS': {                                                               #AVC
-        'user': 'users.serializers.CustomUserSerializer',                          #AVC
-        'current_user': 'users.serializers.CustomUserSerializer',                  #AVC
-        'user_create': 'users.serializers.CustomUserCreateSerializer',             #AVC
+DJOSER = {                                                                         # AVC
+    'LOGIN_FIELD': 'email',                                                        # AVC
+    'SEND_ACTIVATION_EMAIL': False,                                                # AVC
+    'SERIALIZERS': {                                                               # AVC
+        'user': 'users.serializers.CustomUserSerializer',                          # AVC
+        'current_user': 'users.serializers.CustomUserSerializer',                  # AVC
+        'user_create': 'users.serializers.CustomUserCreateSerializer',             # AVC
     },
     'HIDE_USERS': False,
     'PERMISSIONS': {
-        'user_list': ['rest_framework.permissions.AllowAny'],                      #AVC
+        'user_list': ['rest_framework.permissions.AllowAny'],                      # AVC
         'user': ['rest_framework.permissions.IsAuthenticated']
     }
 }
@@ -166,8 +166,8 @@ USE_TZ = True
 STATIC_URL = '/static_backend/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_backend')
 
-MEDIA_URL = '/media/'                                              #AVC
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')                       #AVC
+MEDIA_URL = '/media/'                                              # AVC
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')                       # AVC
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 

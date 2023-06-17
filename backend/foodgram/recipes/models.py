@@ -24,7 +24,7 @@ class Tag(models.Model):
         return self.name[:20]
 
 
-class  Measurement(models.Model):
+class Measurement(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
@@ -41,7 +41,7 @@ class Ingredient(models.Model):
         Measurement,
         on_delete=models.RESTRICT,
         related_name='ingredients',
-        verbose_name = 'Единица измерения',
+        verbose_name='Единица измерения',
     )
 
     class Meta:
@@ -81,7 +81,7 @@ class Recipe(models.Model):
         verbose_name='Время приготовления в мин',
         help_text='Введите время приготовления в мин',
     )
-    
+
     class Meta:
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'

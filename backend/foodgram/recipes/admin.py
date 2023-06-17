@@ -13,7 +13,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        qs = qs.annotate(favorite_count = Count('favorited'))
+        qs = qs.annotate(favorite_count=Count('favorited'))
         return qs
 
     def favorite_count(self, obj):
@@ -23,6 +23,7 @@ class RecipeAdmin(admin.ModelAdmin):
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'measurement_unit',)
     list_filter = ('name',)
+
 
 admin.site.register(Tag)
 admin.site.register(Measurement)

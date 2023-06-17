@@ -1,4 +1,6 @@
-from django_filters import FilterSet, CharFilter, ModelMultipleChoiceFilter, NumberFilter
+from django_filters import (
+    FilterSet, CharFilter, ModelMultipleChoiceFilter, NumberFilter
+)
 
 from .models import Ingredient, Recipe, Tag
 
@@ -6,9 +8,10 @@ from .models import Ingredient, Recipe, Tag
 class IngredientFilterBackend(FilterSet):
     '''Фильтр ингредиентов по первым буквам в форме создания рецепта.'''
     name = CharFilter(lookup_expr='startswith')
+
     class Meta:
         model = Ingredient
-        fields = ['name',]
+        fields = ['name', ]
 
 
 class RecipeFilterBackend(FilterSet):
@@ -27,12 +30,12 @@ class RecipeFilterBackend(FilterSet):
 
     def filter_is_favorited(self, queryset, name, value):
         curr_user = self.request.user.pk
-        if value == 1 or value == True:
+        if value == 1 or value is True:
             queryset = queryset.filter(favorited__user=curr_user)
         return queryset
 
     def filter_is_in_shopping_cart(self, queryset, name, value):
         curr_user = self.request.user.pk
-        if value == 1 or value == True:
+        if value == 1 or value is True:
             queryset = queryset.filter(in_shopping_cart__user=curr_user)
         return queryset

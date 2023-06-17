@@ -2,8 +2,6 @@ from rest_framework import status, viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
-from django.shortcuts import get_object_or_404
-from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from django.db.models import Sum, Prefetch
 import io
@@ -14,12 +12,15 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 
-from .models import Tag, Ingredient, Recipe, ShoppingCart, IngredientRecipe, TagRecipe
+from .models import (
+    Tag, Ingredient, Recipe, ShoppingCart, IngredientRecipe, TagRecipe
+)
 from .filters import IngredientFilterBackend, RecipeFilterBackend
 from .serializers import (
     TagSerializer, IngredientSerializer, AddRecipeSerializer,
     FavoriteSerializer, ShoppingCartSerializer
 )
+from .exceptions import NotFoundRecipe
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -43,8 +44,14 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     '''Обработка запросов при работе с рецептами'''
     queryset = Recipe.objects.select_related('author').prefetch_related(
-        Prefetch('recipe_in_ingredient', queryset=IngredientRecipe.objects.select_related('ingredient')),
-        Prefetch('recipe_tagrecipe', queryset=TagRecipe.objects.select_related('tag')),
+        Prefetch(
+            'recipe_in_ingredient',
+            queryset=IngredientRecipe.objects.select_related('ingredient')
+        ),
+        Prefetch(
+            'recipe_tagrecipe',
+            queryset=TagRecipe.objects.select_related('tag')
+        ),
     ).all()
     serializer_class = AddRecipeSerializer
     filter_backends = (DjangoFilterBackend,)
@@ -54,12 +61,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         self, request, pk, serializer, ERROR_TEXT
     ):
         '''Общий метод для обработки запросов в избранное и список покупок'''
-        try:
-            get_object_or_404(Recipe, pk=pk)
-        except:
-            raise ValidationError(
-                {'errors': 'Такого рецепта не существует'}
-            )
+        if Recipe.objects.filter(pk=pk).exists() == False:
+            raise NotFoundRecipe()
+
         if self.request.method == 'POST':
             serializer = serializer(
                 data={
@@ -71,7 +75,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+
         if serializer.Meta.model.objects.filter(recipe=pk).exists():
             serializer.Meta.model.objects.filter(recipe=pk).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -79,7 +83,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             {'errors': ERROR_TEXT},
             status=status.HTTP_400_BAD_REQUEST
         )
-    
+
     @action(
         methods=['post', 'delete'],
         detail=True,
@@ -101,21 +105,23 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return self.post_del_for_shop_cart_and_favorite(
             request, pk, serializer, ERROR_TEXT
         )
-    
+
     @action(
-        methods=['get',],
+        methods=['get', ],
         detail=False,
     )
     def download_shopping_cart(self, request):
         response = HttpResponse(content_type='application/pdf')
         cur_date = datetime.date.today()
-        response['Content-Disposition'] = f'inline; filename="Купить {cur_date}.pdf"'
+        response['Content-Disposition'] = (
+            f'inline; filename="Купить {cur_date}.pdf"'
+        )
 
         user = self.request.user
         purchase_queryset = ShoppingCart.objects.filter(user=user).values_list(
             'recipe__ingredients__name',
             'recipe__ingredients__measurement_unit__name',
-        ).annotate(sum = Sum('recipe__recipe_in_ingredient__amount'))
+        ).annotate(sum=Sum('recipe__recipe_in_ingredient__amount'))
 
         pdfmetrics.registerFont(TTFont('DejaVuSerif', 'data/DejaVuSerif.ttf'))
 
@@ -132,9 +138,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         for elem in purchase_queryset:
             p.setFont('DejaVuSerif', 12, leading=None)
-            p.drawString(x1, y1-20, f'{elem[0]} ({elem[1]}) - {elem[2]}')
+            p.drawString(x1, y1 - 20, f'{elem[0]} ({elem[1]}) - {elem[2]}')
             y1 -= 20
-        
+
         p.setTitle(f'Список покупок на {cur_date}')
         p.showPage()
         p.save()

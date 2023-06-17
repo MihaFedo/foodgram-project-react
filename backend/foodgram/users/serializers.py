@@ -22,7 +22,7 @@ class CustomUserSerializer(UserSerializer):
             'is_subscribed',
         )
         read_only_fields = (settings.LOGIN_FIELD,)
-    
+
     def get_is_subscribed(self, obj):
         user = self.context['request'].user
         if user.is_anonymous:
@@ -85,7 +85,7 @@ class AddFollowSerializer(serializers.ModelSerializer):
                 'Какой же смысл подписываться самому на себя?! Так нельзя)'
             )
         return value
-    
+
     def to_representation(self, instance):
         context = {'request': self.context.get('request')}
         return GetFollowSerializer(instance.author, context=context).data
@@ -101,7 +101,10 @@ class GetFollowSerializer(CustomUserSerializer):
     recipes_count = serializers.SerializerMethodField()
 
     class Meta(CustomUserSerializer.Meta):
-        fields = CustomUserSerializer.Meta.fields + ('recipes', 'recipes_count')
+        fields = CustomUserSerializer.Meta.fields + (
+            'recipes',
+            'recipes_count'
+        )
 
     def get_recipes_count(self, obj):
         return obj.recipes.count()

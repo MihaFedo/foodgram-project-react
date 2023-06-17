@@ -6,3 +6,4 @@ class RecipesConfig(AppConfig):
 
     def ready(self):
         from .signals import recipe_signals
+        print('---------------------', recipe_signals.__name__)
