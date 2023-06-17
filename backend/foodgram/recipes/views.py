@@ -61,7 +61,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         self, request, pk, serializer, ERROR_TEXT
     ):
         '''Общий метод для обработки запросов в избранное и список покупок'''
-        if Recipe.objects.filter(pk=pk).exists() == False:
+        if not Recipe.objects.filter(pk=pk).exists():
             raise NotFoundRecipe()
 
         if self.request.method == 'POST':

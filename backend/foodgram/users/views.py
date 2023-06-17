@@ -23,9 +23,9 @@ class CustomUserViewSet(UserViewSet):
         detail=True,
     )
     def subscribe(self, request, id):
-        if User.objects.filter(pk=id).exists() == False:
+        if not User.objects.filter(pk=id).exists():
             raise NotFoundAuthor()
-        
+
         if self.request.method == 'POST':
             serializer = AddFollowSerializer(
                 data={
