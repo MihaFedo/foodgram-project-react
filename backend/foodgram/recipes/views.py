@@ -1,4 +1,4 @@
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
@@ -54,8 +54,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ),
     ).all()
     serializer_class = AddRecipeSerializer
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = RecipeFilterBackend
+    ordering = ('-date_created')
 
     def post_del_for_shop_cart_and_favorite(
         self, request, pk, serializer, ERROR_TEXT

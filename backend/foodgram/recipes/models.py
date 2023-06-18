@@ -81,6 +81,14 @@ class Recipe(models.Model):
         verbose_name='Время приготовления в мин',
         help_text='Введите время приготовления в мин',
     )
+    date_created = models.DateTimeField(
+        'Время создания',
+        auto_now_add=True
+    )
+    last_updated = models.DateTimeField(
+        'Время обновления',
+        auto_now=True
+    )
 
     class Meta:
         verbose_name = 'Рецепт'
