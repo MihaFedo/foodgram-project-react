@@ -2,11 +2,11 @@ FROM python:3.7-slim
 
 WORKDIR /app
 
-COPY ./infra/requirements.txt .
+COPY backend/foodgram/requirements.txt .
 
 RUN pip3 install -r /app/requirements.txt --no-cache-dir
 
-COPY ./backend/foodgram/ .
+COPY backend/foodgram/ .
 
 # COPY ././data ./data 
 
