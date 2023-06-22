@@ -10,8 +10,10 @@ services:
       - ./.env
 
   backend:
-    image: lyganin/foodgram_backend:latest
-    build: .
+    build:
+      context: ../backend/foodgram
+      # context: ../
+      dockerfile: Dockerfile
     restart: always
     volumes:
       - static_backend_value:/app/static_backend/
@@ -22,9 +24,9 @@ services:
       - ./.env
 
   frontend:
-    image: lyganin/foodgram_frontend:latest
-    build: .
-    restart: always
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
   nginx:
