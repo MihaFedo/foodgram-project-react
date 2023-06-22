@@ -5,6 +5,7 @@ from .validators import validate_username
 
 
 class ExtUser(AbstractUser):
+    '''Кастомная модель пользователя.'''
     username = models.CharField(
         verbose_name='username',
         max_length=150,
@@ -14,18 +15,15 @@ class ExtUser(AbstractUser):
     email = models.EmailField(
         verbose_name='email',
         unique=True,
-        blank=False,
         max_length=254,
     )
     first_name = models.CharField(
         verbose_name='first_name',
         max_length=150,
-        blank=False,
     )
     last_name = models.CharField(
         verbose_name='last_name',
         max_length=150,
-        blank=False,
     )
     password = models.CharField('password', max_length=150)
 
@@ -41,6 +39,7 @@ class ExtUser(AbstractUser):
 
 
 class Follow(models.Model):
+    '''Модель подписчиков на авторов рецептов.'''
     user = models.ForeignKey(
         ExtUser,
         on_delete=models.CASCADE,

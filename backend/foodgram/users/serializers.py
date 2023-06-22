@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers
 from djoser.conf import settings
-from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 from djoser.serializers import UserCreateSerializer, UserSerializer
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from .models import Follow
+from .validators import validate_username
 
 User = get_user_model()
 
@@ -38,7 +39,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         validators=[UniqueValidator(
             queryset=User.objects.all(),
             message='Придумайте другой username, такой уже существует!'
-        )]
+        ), validate_username]
     )
     email = serializers.EmailField(
         required=True,
@@ -57,13 +58,6 @@ class CustomUserCreateSerializer(UserCreateSerializer):
             'username',
             'password',
         )
-
-    def validate_username(self, value):
-        if value == 'me':
-            raise serializers.ValidationError(
-                f'{value} служебное имя!'
-            )
-        return value
 
 
 class AddFollowSerializer(serializers.ModelSerializer):

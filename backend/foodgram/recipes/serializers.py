@@ -1,14 +1,14 @@
-from django.contrib.auth import get_user_model
-from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
-from django.core.files.base import ContentFile
 import base64
 
-from .models import (
-    Tag, Ingredient, IngredientRecipe, TagRecipe, Recipe,
-    ShoppingCart, Favorite,
-)
+from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+
 from users.serializers import CustomUserSerializer
+
+from .models import (Favorite, Ingredient, IngredientRecipe, Recipe,
+                     ShoppingCart, Tag, TagRecipe)
 
 User = get_user_model()
 
@@ -116,22 +116,22 @@ class AddRecipeSerializer(serializers.ModelSerializer):
                 'В рецепте обязательно должны быть ингредиенты.'
             )
         value_id_set = set(
-            value[i].get('ingredient') for i in range(len(value))
+            value[_].get('ingredient') for _ in range(len(value))
         )
-        if len(value) > len(value_id_set):
+        if len(value) != len(value_id_set):
             raise serializers.ValidationError(
                 'В рецепте ингредиенты не должны повторяться.'
             )
         return value
 
-    def create_objects_TagRecipe(self, recipe, tags):
+    def create_objects_tagrecipe(self, recipe, tags):
         for tag in tags:
             TagRecipe.objects.create(
                 tag=tag,
                 recipe=recipe,
             )
 
-    def create_objects_IngredientRecipe(self, recipe, ingredients):
+    def create_objects_ingredientrecipe(self, recipe, ingredients):
         for element in ingredients:
             IngredientRecipe.objects.create(
                 ingredient=element.get('ingredient'),
@@ -143,8 +143,8 @@ class AddRecipeSerializer(serializers.ModelSerializer):
         ingredients = validated_data.pop('ingredients')
         tags = validated_data.pop('tags')
         recipe = Recipe.objects.create(**validated_data)
-        self.create_objects_TagRecipe(recipe, tags)
-        self.create_objects_IngredientRecipe(recipe, ingredients)
+        self.create_objects_tagrecipe(recipe, tags)
+        self.create_objects_ingredientrecipe(recipe, ingredients)
         return recipe
 
     def update(self, instance, validated_data):
@@ -154,8 +154,8 @@ class AddRecipeSerializer(serializers.ModelSerializer):
         IngredientRecipe.objects.filter(recipe=instance).delete()
         TagRecipe.objects.filter(recipe=instance).delete()
 
-        self.create_objects_TagRecipe(instance, tags)
-        self.create_objects_IngredientRecipe(instance, ingredients)
+        self.create_objects_tagrecipe(instance, tags)
+        self.create_objects_ingredientrecipe(instance, ingredients)
 
         return super().update(instance, validated_data)
 

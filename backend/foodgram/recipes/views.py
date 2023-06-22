@@ -1,26 +1,25 @@
-from rest_framework import status, viewsets, filters
+import datetime
+import io
+
+from django.db.models import Prefetch, Sum
+from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from django.db.models import Sum, Prefetch
-import io
-import datetime
-from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfbase import pdfmetrics
 
-from .models import (
-    Tag, Ingredient, Recipe, ShoppingCart, IngredientRecipe, TagRecipe
-)
-from .filters import IngredientFilterBackend, RecipeFilterBackend
-from .serializers import (
-    TagSerializer, IngredientSerializer, AddRecipeSerializer,
-    FavoriteSerializer, ShoppingCartSerializer
-)
 from .exceptions import NotFoundRecipe
+from .filters import IngredientFilterBackend, RecipeFilterBackend
+from .models import (Ingredient, IngredientRecipe, Recipe, ShoppingCart, Tag,
+                     TagRecipe)
+from .serializers import (AddRecipeSerializer, FavoriteSerializer,
+                          IngredientSerializer, ShoppingCartSerializer,
+                          TagSerializer)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -59,7 +58,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     ordering = ('-date_created')
 
     def post_del_for_shop_cart_and_favorite(
-        self, request, pk, serializer, ERROR_TEXT
+        self, request, pk, serializer, error_text
     ):
         '''Общий метод для обработки запросов в избранное и список покупок'''
         if not Recipe.objects.filter(pk=pk).exists():
@@ -81,7 +80,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             serializer.Meta.model.objects.filter(recipe=pk).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(
-            {'errors': ERROR_TEXT},
+            {'errors': error_text},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -91,9 +90,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def favorite(self, request, pk):
         serializer = FavoriteSerializer
-        ERROR_TEXT = 'Такого рецепта нет в избранном.'
+        error_text = 'Такого рецепта нет в избранном.'
         return self.post_del_for_shop_cart_and_favorite(
-            request, pk, serializer, ERROR_TEXT
+            request, pk, serializer, error_text
         )
 
     @action(
@@ -102,9 +101,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def shopping_cart(self, request, pk):
         serializer = ShoppingCartSerializer
-        ERROR_TEXT = 'Такого рецепта нет в списке покупок.'
+        error_text = 'Такого рецепта нет в списке покупок.'
         return self.post_del_for_shop_cart_and_favorite(
-            request, pk, serializer, ERROR_TEXT
+            request, pk, serializer, error_text
         )
 
     @action(

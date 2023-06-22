@@ -1,4 +1,5 @@
 import os
+
 import pandas as pd
 from django.core.management import BaseCommand
 
@@ -45,25 +46,19 @@ class Command(BaseCommand):
         df_meas_units = df_meas_units.to_dict('records')
 
         for row in df_meas_units:
-            measurement = Measurement(
+            Measurement.objects.update_or_create(
                 id=row['id'],
                 name=row['name'],
             )
-            if Measurement.objects.filter(**row).exists():
-                continue
-            measurement.save()
 
         # запись в Ingredient
         df_ingredients = df_ingredients.to_dict('records')
 
         for row in df_ingredients:
-            ingredient = Ingredient(
+            Ingredient.objects.update_or_create(
                 id=row['id'],
                 name=row['name'],
                 measurement_unit=Measurement.objects.get(
                     id=row['measurement_unit']
                 ),
             )
-            if Ingredient.objects.filter(**row).exists():
-                continue
-            ingredient.save()

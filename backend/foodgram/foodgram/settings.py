@@ -11,13 +11,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv                  # AVC
+
+from dotenv import load_dotenv  # AVC
 
 load_dotenv()                                   # AVC
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# print("base dir path", BASE_DIR)
+print("base dir path", BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'djoser',                                    # AVC
     'django_filters',                            # AVC
     'debug_toolbar',                             # AVC
+    'colorfield',                                # AVC
 ]
 
 MIDDLEWARE = [

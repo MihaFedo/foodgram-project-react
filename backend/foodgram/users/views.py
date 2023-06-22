@@ -1,11 +1,11 @@
+from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model
 
-from .serializers import AddFollowSerializer, GetFollowSerializer
 from .exceptions import NotFoundAuthor
+from .serializers import AddFollowSerializer, GetFollowSerializer
 
 User = get_user_model()
 
@@ -15,8 +15,7 @@ class CustomUserViewSet(UserViewSet):
     @action(["get", ], detail=False)
     def me(self, request, *args, **kwargs):
         self.get_object = self.get_instance
-        if request.method == "GET":
-            return self.retrieve(request, *args, **kwargs)
+        return self.retrieve(request, *args, **kwargs)
 
     @action(
         methods=['post', 'delete'],

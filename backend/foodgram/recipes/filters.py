@@ -1,6 +1,5 @@
-from django_filters import (
-    FilterSet, CharFilter, ModelMultipleChoiceFilter, NumberFilter
-)
+from django_filters import (CharFilter, FilterSet, ModelMultipleChoiceFilter,
+                            NumberFilter)
 
 from .models import Ingredient, Recipe, Tag
 
@@ -31,11 +30,11 @@ class RecipeFilterBackend(FilterSet):
     def filter_is_favorited(self, queryset, name, value):
         curr_user = self.request.user.pk
         if value == 1 or value is True:
-            queryset = queryset.filter(favorited__user=curr_user)
+            return queryset.filter(favorited__user=curr_user)
         return queryset
 
     def filter_is_in_shopping_cart(self, queryset, name, value):
         curr_user = self.request.user.pk
         if value == 1 or value is True:
-            queryset = queryset.filter(in_shopping_cart__user=curr_user)
+            return queryset.filter(in_shopping_cart__user=curr_user)
         return queryset
