@@ -64,8 +64,8 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
           sudo docker-compose stop
-          sudo docker-compose rm web
-          sudo docker-compose pull
+          sudo docker-compose rm backend
+          sudo docker-compose pull ${{ secrets.DOCKER_USERNAME }}/foodgram:latest
           sudo systemctl stop nginx
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env

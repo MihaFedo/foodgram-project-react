@@ -1,4 +1,4 @@
-# Foodgram, «Продуктовый помощник»
+# Foodgram, «Продуктовый помощник» ![Workflow status](https://github.com/MihaFedo/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 ### Описание дипломного проекта
 Написать онлайн-сервис и API для сайта Foodgram, «Продуктовый помощник». На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
@@ -24,20 +24,67 @@ docker-compose up
 - nginx подготовит сервер в соответствии с параметрами из nginx.conf.
 2. Подготовить и выполнить миграции для базы данных:
 ```
-sudo docker-compose exec backend python manage.py makemigrations
-sudo docker-compose exec backend python manage.py migrate
+docker-compose exec backend python manage.py makemigrations
+docker-compose exec backend python manage.py migrate
 ```
 3. Создать суперюзера для проекта:
 ```
-sudo docker-compose exec backend python manage.py createsuperuser
+docker-compose exec backend python manage.py createsuperuser
 ```
 4. Собрать файлы статики в отдельную папку:
 ```
-sudo docker-compose exec backend python manage.py collectstatic --no-input
+docker-compose exec backend python manage.py collectstatic --no-input
 ```
 5. Наполнить базу данных ингредиентами и единицами измерения можно командой:
 ```
-sudo docker-compose exec backend python manage.py load_csv_file
+docker-compose exec backend python manage.py load_csv_file
+```
+
+### Команды для запуска приложения в контейнерах (ВМ Yandex Cloud)
+- Войдите на удаленный сервер в облаке
+```
+ssh <имя пользователя на сервере>@<IP-адрес сервера>
+```
+- Остановите службу nginx
+```
+sudo systemctl stop nginx
+```
+- Установите docker:
+```
+sudo apt install docker.io
+```
+- Установите docker-compose
+- Скопируйте файлы docker-compose.yml и nginx/default.conf из вашего проекта на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно:
+```
+scp ./docker-compose.yml <имя пользователя на сервере>@<IP-адрес сервера>:~/
+scp ./nginx.conf <имя пользователя на сервере>@<IP-адрес сервера>:~/nginx/
+```
+- Программные инструкции по развертыванию контейнеров описаны в файле docker-compose.yml
+- Workflow для GitHub Actions описано в файле yamdb_workflow.yml
+
+После успешного прохождения workflow на GitHub Actions необходимо выполнить следующие команды на сервере.
+
+- Подготовить миграции для базы данных:
+```
+sudo docker-compose exec web python manage.py makemigrations api
+sudo docker-compose exec web python manage.py makemigrations reviews
+sudo docker-compose exec web python manage.py makemigrations users
+```
+- Выполнить миграции:
+```
+sudo docker-compose exec web python manage.py migrate
+```
+- Создать суперюзера для проекта:
+```
+sudo docker-compose exec web python manage.py createsuperuser
+```
+- Собрать статические файлы в отдельную папку:
+```
+sudo docker-compose exec web python manage.py collectstatic --no-input
+```
+- Наполнить базу данных тестовыми данными для проекта можно командой:
+```
+sudo docker-compose exec web python manage.py load_csv_files
 ```
 
 ### Автор
