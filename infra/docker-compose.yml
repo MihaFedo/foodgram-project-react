@@ -11,7 +11,7 @@ services:
 
   backend:
     image: lyganin/foodgram_backend:latest
-    build: .
+    # build: .
     restart: always
     volumes:
       - static_backend_value:/app/static_backend/
@@ -23,10 +23,13 @@ services:
 
   frontend:
     image: lyganin/foodgram_frontend:latest
-    build: .
-    restart: always
+    # build: .
+    # restart: always
     volumes:
       - ../frontend/:/app/result_build/
+    depends_on:
+      - db
+
   nginx:
     image: nginx:1.19.3
     ports:
@@ -39,6 +42,7 @@ services:
       - ../docs/:/usr/share/nginx/html/api/docs/
       - ../docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml     #AVC
     depends_on:
+      - backend
       - frontend  
 
 volumes:
