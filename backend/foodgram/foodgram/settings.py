@@ -28,7 +28,7 @@ print("base dir path", BASE_DIR)
 SECRET_KEY = os.getenv('SECRET_KEY', 'DEFAULT_SECRET_KEY')     # AVC
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']                            # AVC
 

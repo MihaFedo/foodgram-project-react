@@ -1,5 +1,7 @@
 # Foodgram, «Продуктовый помощник» ![Workflow status](https://github.com/MihaFedo/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
+Развернутый проект доступен по адресу: http://84.252.141.78
+
 ### Описание дипломного проекта
 Написать онлайн-сервис и API для сайта Foodgram, «Продуктовый помощник». На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
 
@@ -40,7 +42,7 @@ docker-compose exec backend python manage.py collectstatic --no-input
 docker-compose exec backend python manage.py load_csv_file
 ```
 
-### Команды для запуска приложения в контейнерах (ВМ Yandex Cloud)
+### Команды для запуска приложения в контейнерах на сервере (ВМ Yandex Cloud)
 - Войдите на удаленный сервер в облаке
 ```
 ssh <имя пользователя на сервере>@<IP-адрес сервера>
@@ -57,7 +59,7 @@ sudo apt install docker.io
 - Скопируйте файлы docker-compose.yml и nginx/default.conf из вашего проекта на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно:
 ```
 scp ./docker-compose.yml <имя пользователя на сервере>@<IP-адрес сервера>:~/
-scp ./nginx.conf <имя пользователя на сервере>@<IP-адрес сервера>:~/nginx/
+scp ./nginx.conf <имя пользователя на сервере>@<IP-адрес сервера>:~/
 ```
 - Программные инструкции по развертыванию контейнеров описаны в файле docker-compose.yml
 - Workflow для GitHub Actions описано в файле yamdb_workflow.yml
@@ -66,25 +68,34 @@ scp ./nginx.conf <имя пользователя на сервере>@<IP-ад�
 
 - Подготовить миграции для базы данных:
 ```
-sudo docker-compose exec web python manage.py makemigrations api
-sudo docker-compose exec web python manage.py makemigrations reviews
-sudo docker-compose exec web python manage.py makemigrations users
+sudo docker-compose exec backend python manage.py makemigrations
 ```
 - Выполнить миграции:
 ```
-sudo docker-compose exec web python manage.py migrate
+sudo docker-compose exec backend python manage.py migrate
 ```
 - Создать суперюзера для проекта:
 ```
-sudo docker-compose exec web python manage.py createsuperuser
+sudo docker-compose exec backend python manage.py createsuperuser
 ```
 - Собрать статические файлы в отдельную папку:
 ```
-sudo docker-compose exec web python manage.py collectstatic --no-input
+sudo docker-compose exec backend python manage.py collectstatic --no-input
 ```
-- Наполнить базу данных тестовыми данными для проекта можно командой:
+- Наполнить базу данных ингредиентами для создания рецептов можно командой:
 ```
-sudo docker-compose exec web python manage.py load_csv_files
+sudo docker-compose exec backend python manage.py load_csv_file
+```
+
+### Шаблон наполнения env-файла
+```
+SECRET_KEY = '...' # секретный ключ
+DB_ENGINE=django.db.backends.postgresql # указываем, что работаем с postgresql
+DB_NAME=postgres # имя базы данных
+POSTGRES_USER=... # логин для подключения к базе данных
+POSTGRES_PASSWORD=... # пароль для подключения к БД (установите свой)
+DB_HOST=db # название сервиса (контейнера)
+DB_PORT=.... # порт для подключения к БД
 ```
 
 ### Автор
