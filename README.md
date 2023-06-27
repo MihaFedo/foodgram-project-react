@@ -1,6 +1,6 @@
 # Foodgram, «Продуктовый помощник» ![Workflow status](https://github.com/MihaFedo/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
-Развернутый проект доступен по адресу: http://84.252.141.78
+Развернутый проект доступен по адресу: http://84.252.141.78 или http://suprecipe.sytes.net
 Вход для суперюзера: http://84.252.141.78/admin (lyganin / lyganin)
 
 
