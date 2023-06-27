@@ -19,7 +19,7 @@ from .models import (Ingredient, IngredientRecipe, Recipe, ShoppingCart, Tag,
                      TagRecipe)
 from .serializers import (AddRecipeSerializer, FavoriteSerializer,
                           IngredientSerializer, ShoppingCartSerializer,
-                          TagSerializer)
+                          TagSerializer, GetRecipeSerializer)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -47,10 +47,19 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'recipe_in_ingredient',
             queryset=IngredientRecipe.objects.select_related('ingredient')
         ),
-        Prefetch(
-            'recipe_tagrecipe',
-            queryset=TagRecipe.objects.select_related('tag')
+        # При GET запросе на вывод общего списка рецептов по ТЗ должны
+        # выводиться не только id тэгов, но и id, name, color, slug каждого
+        # тэга. Мне кажется, что это почти полная аналогия с ингедиентами.
+        # Т.е. я подумал, доп таблица нужна и для иншредиентов, и для тэгов.
+        # Поэтом я использовал класс Prefetch в обоих случаях.
+        # Прокомментируйте, пож-та, что я могу не так понимать?
+        # Для ситуации вывода только списка id тэгов, мне кажется, было бы
+        # правильно вместо Prefetch() написать просто 'recipe_tagrecipe'
+        Prefetch( 
+            'recipe_tagrecipe', 
+            queryset=TagRecipe.objects.select_related('tag') 
         ),
+        #'recipe_tagrecipe',
     ).all()
     serializer_class = AddRecipeSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)

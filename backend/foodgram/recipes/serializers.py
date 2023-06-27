@@ -159,6 +159,14 @@ class AddRecipeSerializer(serializers.ModelSerializer):
 
         return super().update(instance, validated_data)
 
+    # Не разобрался, как удобно сделать во вьесете. Вроде по смыслу нужно
+    # использовать get_serializer_class. С его помощью удобно выбирать
+    # сериализатор в зависимости от действия (list, retrieve, create и пр.)
+    # Но в данном случае у меня возникла проблема с POST запросом на создание
+    # рецепта - сначала должен отработать AddRecipeSerializer + отправка на
+    # сервер, а потом ответ сервера должен быть обработан GetRecipeSerializer.
+    # Как удобно разделить этот POST запрос с помощью get_serializer_class
+    # я не разобрался, поэтому пока оставил to_representation
     def to_representation(self, instance):
         context = {'request': self.context.get('request')}
         return GetRecipeSerializer(instance, context=context).data
