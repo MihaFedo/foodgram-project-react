@@ -30,7 +30,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'DEFAULT_SECRET_KEY')     # AVC
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['84.252.141.78', 'localhost', '127.0.0.1', 'suprecipe.sytes.net']     # AVC
+# ALLOWED_HOSTS = ['84.252.141.78', 'localhost', '127.0.0.1', 'suprecipe.sytes.net']     # AVC
+ALLOWED_HOSTS = ['*']     # AVC
 
 
 # Application definition
