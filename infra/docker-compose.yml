@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 services:
   db:
     image: postgres:13.0-alpine
@@ -28,7 +28,6 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
-      - db
       - backend
 
   nginx:
