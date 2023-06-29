@@ -19,7 +19,7 @@ from .models import (Ingredient, IngredientRecipe, Recipe, ShoppingCart, Tag,
                      TagRecipe)
 from .serializers import (AddRecipeSerializer, FavoriteSerializer,
                           IngredientSerializer, ShoppingCartSerializer,
-                          TagSerializer, GetRecipeSerializer)
+                          TagSerializer)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -55,11 +55,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
         # Прокомментируйте, пож-та, что я могу не так понимать?
         # Для ситуации вывода только списка id тэгов, мне кажется, было бы
         # правильно вместо Prefetch() написать просто 'recipe_tagrecipe'
-        Prefetch( 
-            'recipe_tagrecipe', 
-            queryset=TagRecipe.objects.select_related('tag') 
+        Prefetch(
+            'recipe_tagrecipe',
+            queryset=TagRecipe.objects.select_related('tag')
         ),
-        #'recipe_tagrecipe',
+        # 'recipe_tagrecipe',
     ).all()
     serializer_class = AddRecipeSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
