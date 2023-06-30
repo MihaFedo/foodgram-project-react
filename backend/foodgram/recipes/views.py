@@ -12,16 +12,17 @@ from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-# from django.utils.decorators import method_decorator
-# from query_counter.decorators import queries_counter
 
 from .exceptions import NotFoundRecipe
 from .filters import IngredientFilterBackend, RecipeFilterBackend
-from .models import (Ingredient, IngredientRecipe, Recipe, ShoppingCart, Tag,
-                     TagRecipe)
+from .models import Ingredient, IngredientRecipe, Recipe, ShoppingCart, Tag
 from .serializers import (AddRecipeSerializer, FavoriteSerializer,
                           IngredientSerializer, ShoppingCartSerializer,
                           TagSerializer)
+
+# from django.utils.decorators import method_decorator
+# from query_counter.decorators import queries_counter
+
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
