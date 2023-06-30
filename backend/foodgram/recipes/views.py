@@ -24,7 +24,6 @@ from .serializers import (AddRecipeSerializer, FavoriteSerializer,
 # from query_counter.decorators import queries_counter
 
 
-
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     '''Обработка запросов для получения списка тегов или отдельного тега'''
     queryset = Tag.objects.all()
