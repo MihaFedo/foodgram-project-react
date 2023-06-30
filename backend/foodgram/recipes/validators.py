@@ -6,9 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 def validate_slug(value):
     if not re.match(r'^[-a-zA-Z0-9_]+$', value):
-        forbidden_symb = ' '.join(
-            set(re.sub(r'^[-a-zA-Z0-9_]+$', '', _) for _ in value)
-        )
+        forbidden_symb = ' '.join(set(re.sub(r'[-a-zA-Z0-9_]', '', value)))
         raise ValidationError(_(
             f'{value} содержит запрещенные символы: ({forbidden_symb}).'
         ))

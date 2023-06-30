@@ -12,6 +12,8 @@ from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+# from django.utils.decorators import method_decorator
+# from query_counter.decorators import queries_counter
 
 from .exceptions import NotFoundRecipe
 from .filters import IngredientFilterBackend, RecipeFilterBackend
@@ -40,6 +42,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_class = IngredientFilterBackend
 
 
+# @method_decorator(queries_counter, name='dispatch')
 class RecipeViewSet(viewsets.ModelViewSet):
     '''Обработка запросов при работе с рецептами'''
     queryset = Recipe.objects.select_related('author').prefetch_related(
@@ -47,24 +50,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'recipe_in_ingredient',
             queryset=IngredientRecipe.objects.select_related('ingredient')
         ),
-        # При GET запросе на вывод общего списка рецептов по ТЗ должны
-        # выводиться не только id тэгов, но и id, name, color, slug каждого
-        # тэга. Мне кажется, что это почти полная аналогия с ингедиентами.
-        # Т.е. я подумал, доп таблица нужна и для иншредиентов, и для тэгов.
-        # Поэтом я использовал класс Prefetch в обоих случаях.
-        # Прокомментируйте, пож-та, что я могу не так понимать?
-        # Для ситуации вывода только списка id тэгов, мне кажется, было бы
-        # правильно вместо Prefetch() написать просто 'recipe_tagrecipe'
-        Prefetch(
-            'recipe_tagrecipe',
-            queryset=TagRecipe.objects.select_related('tag')
-        ),
-        # 'recipe_tagrecipe',
+        'tags',
     ).all()
     serializer_class = AddRecipeSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = RecipeFilterBackend
     ordering = ('-date_created')
+    pagination_class = None
 
     def post_del_for_shop_cart_and_favorite(
         self, request, pk, serializer, error_text

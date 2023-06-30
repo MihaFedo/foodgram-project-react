@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from .models import Follow
-from .validators import validate_username
+from .validators import validate_username, validate_email
 
 User = get_user_model()
 
@@ -47,7 +47,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         validators=[UniqueValidator(
             queryset=User.objects.all(),
             message='Укажите другой email, такой уже существует!'
-        )]
+        ), validate_email]
     )
 
     class Meta:

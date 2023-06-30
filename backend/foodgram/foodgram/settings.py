@@ -18,7 +18,7 @@ load_dotenv()                                   # AVC
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print("base dir path", BASE_DIR)
+# print("base dir path", BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,8 +30,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'DEFAULT_SECRET_KEY')     # AVC
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# ALLOWED_HOSTS = ['84.252.141.78', 'localhost', '127.0.0.1', 'suprecipe.sytes.net']     # AVC
-ALLOWED_HOSTS = ['*']     # AVC
+ALLOWED_HOSTS = ['84.252.141.78', 'localhost', '127.0.0.1', 'suprecipe.sytes.net']     # AVC
+# ALLOWED_HOSTS = ['*']     # AVC
 
 
 # Application definition
@@ -174,24 +174,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')                       # AVC
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-LOGGING = {
-    'version': 1,
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        }
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-        }
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         }
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         }
+#     }
+# }
