@@ -1,11 +1,13 @@
 # Foodgram, "Продуктовый помощник" / "Recipe assistant" ![Workflow status](https://github.com/MihaFedo/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
-Развернутый проект доступен по адресу: http://suprecipe.sytes.net
-Вход для суперюзера: http://suprecipe.sytes.net/admin (lyganin / lyganin)
+Развернутый проект доступен по адресу: http://suprecipe.sytes.net - currently not available <br>
+Вход для суперюзера: http://suprecipe.sytes.net/admin - currently not available (lyganin / lyganin)
 
 
 ### Описание дипломного проекта / Graduate project description
-Написать онлайн-сервис и API для сайта Foodgram, «Продуктовый помощник». На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
+Написать онлайн-сервис и API для сайта Foodgram, «Продуктовый помощник». На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд. <br>
+The main goal of the project is to write an online service and API for the recipe assistance website. On this service, users will be able to publish recipes, subscribe to the publications of other users, add their favorite recipes to the “Favorites” list, and before going to the store, download a consolidated list of products needed to prepare one or more selected dishes. <br>
+Tools and stack: #python #JSON #YAML #Django #React #Telegram #API #Docker #Nginx #PostgreSQL #Gunicorn #JWT #Postman
 
 ### Исходники для реализации проекта
 В исходном репозитории были заготовлены папки frontend, backend, infra, data и docs:
