@@ -1,10 +1,10 @@
-# Foodgram, «Продуктовый помощник» ![Workflow status](https://github.com/MihaFedo/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+# Foodgram, "Продуктовый помощник" / "Recipe assistant" ![Workflow status](https://github.com/MihaFedo/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 Развернутый проект доступен по адресу: http://suprecipe.sytes.net
 Вход для суперюзера: http://suprecipe.sytes.net/admin (lyganin / lyganin)
 
 
-### Описание дипломного проекта
+### Описание дипломного проекта / Graduate project description
 Написать онлайн-сервис и API для сайта Foodgram, «Продуктовый помощник». На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
 
 ### Исходники для реализации проекта
@@ -100,5 +100,5 @@ DB_HOST=db # название сервиса (контейнера)
 DB_PORT=.... # порт для подключения к БД
 ```
 
-### Автор
-Михаил Ф.
+### Автор/Author 
+Михаил Федоров / Mikhail Fedorov
