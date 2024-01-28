@@ -5,7 +5,7 @@
 
 
 ### Описание дипломного проекта / Graduate project description
-Написать онлайн-сервис и API для сайта Foodgram, «Продуктовый помощник». На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд. <br>
+Написать онлайн-сервис и API для сайта Foodgram, «Продуктовый помощник». На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд. <br><br>
 The main goal of the project is to write an online service and API for the recipe assistance website. On this service, users will be able to publish recipes, subscribe to the publications of other users, add their favorite recipes to the “Favorites” list, and before going to the store, download a consolidated list of products needed to prepare one or more selected dishes. <br>
 Tools and stack: #python #JSON #YAML #Django #React #Telegram #API #Docker #Nginx #PostgreSQL #Gunicorn #JWT #Postman
 
